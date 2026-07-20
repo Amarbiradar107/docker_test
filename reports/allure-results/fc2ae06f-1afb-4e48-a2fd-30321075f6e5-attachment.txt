@@ -1,0 +1,1 @@
+[31m[1mERROR   [0m base.BaseDriver:BaseDriver.py:30 Element not visible: //input[@name='name'and @minlen]

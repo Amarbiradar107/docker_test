@@ -65,7 +65,7 @@ class BaseDriver:
         if element:
             element.clear()
             element.send_keys(text)
-            print(f"Entered text: {text} in element: {locator}")
+            self.log.info(f"Entered text: {text} in element: {locator}")
         else:
             self.log.error(f"Failed to enter text in element: {locator}")
 
