@@ -1,15 +1,24 @@
-import unittest
-
 import pytest
-from ddt import data, unpack
+import allure
 
 from pages.registrationform.registrationPage import RegistrationForm
+from utilites.excelutil import ExcelUtil
+import logging
 
-@pytest.mark.usefixtures("setup")
-class TestRegistrationForm(unittest.TestCase):
+test_data_path = "testdata/testData.xlsx"
+read_excel = ExcelUtil.read_excel(test_data_path,"testdata")
 
-    @data(("Amar123", "amar@gmail","password123","Male","01/01/1990"))
-    @unpack
-    def test_registration_form(self,name,email,password,gender,date):
+class TestRegistrationForm:
+
+    log = logging.getLogger(__name__)
+    logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+
+    @allure.feature("Login")
+    @allure.story("Valid Login")
+    @allure.title("Verify user can login successfully")
+    @pytest.mark.parametrize("testdata",read_excel)
+    def test_registration_form(self,setup,testdata):
+        self.driver = setup
+        self.log.info(f"test data : {testdata}")
         register = RegistrationForm(self.driver)
-        register.register_user(name,email,password,gender,date)
+        register.register_user(testdata)

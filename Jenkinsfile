@@ -2,23 +2,45 @@ pipeline {
     agent any
 
     stages {
-        stage('Hello') {
+
+        stage('Checkout') {
             steps {
-                echo 'Hello World'
+                git 'https://github.com/Amarbiradar107/docker_test.git'
             }
         }
-        stage('python') {
-            agent{
-                docker {
-                    image 'python'
-                    reuseNode true
-                }
 
-            }
+        stage('Build') {
             steps {
-                sh 'python --version'
+                sh 'docker compose build'
+            }
+        }
+
+        stage('Start Grid') {
+            steps {
+                sh 'docker compose up -d'
+            }
+        }
+
+        stage('Run Tests') {
+            steps {
+                sh 'docker compose run automation pytest -v --html=report.html'
+            }
+        }
+
+        stage('Publish Report') {
+            steps {
+                publishHTML([
+                    reportDir: '.',
+                    reportFiles: 'report.html',
+                    reportName: 'Automation Report'
+                ])
             }
         }
     }
 
+    post {
+        always {
+            sh 'docker compose down'
+        }
+    }
 }
