@@ -5,7 +5,8 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                git 'https://github.com/Amarbiradar107/docker_test.git'
+                git branch: 'main',
+                    url: 'https://github.com/Amarbiradar107/docker_test.git'
             }
         }
 
