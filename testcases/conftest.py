@@ -8,8 +8,13 @@ from selenium.webdriver.chrome.options import Options
 
 @pytest.fixture(scope="function")
 def setup(request):
-    # driver = webdriver.Chrome()
+
+
     options = Options()
+    options.add_argument("--headless")
+    options.add_argument("--no-sandbox")
+    options.add_argument("--disable-dev-shm-usage")
+    # driver = webdriver.Chrome(options=options)
     driver = webdriver.Remote(
         command_executor="http://selenium-hub:4444/wd/hub",
         options=options

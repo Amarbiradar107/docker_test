@@ -42,11 +42,7 @@ pipeline {
 
         stage('Publish Report') {
             steps {
-                publishHTML([
-                    reportDir: '.',
-                    reportFiles: 'report.html',
-                    reportName: 'Automation Report'
-                ])
+                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, icon: '', keepAll: false, reportDir: 'reports', reportFiles: 'report.html', reportName: 'HTML Report', reportTitles: '', useWrapperFileDirectly: true])
             }
         }
     }
