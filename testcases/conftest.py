@@ -11,7 +11,7 @@ def setup(request):
     # driver = webdriver.Chrome()
     options = Options()
     driver = webdriver.Remote(
-        command_executor="http://selenium-hub:4444",
+        command_executor="http://selenium-hub:4444/wd/hub",
         options=options
     )
     driver.get("https://rahulshettyacademy.com/angularpractice/")

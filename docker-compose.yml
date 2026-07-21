@@ -7,11 +7,17 @@ services:
     container_name: selenium-hub
     ports:
       - "4444:4444"
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:4444/status" ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
 
   chrome:
     image: selenium/node-chrome:4.35
     depends_on:
-      - selenium-hub
+      selenium-hub:
+        condition: service_healthy
     environment:
       - SE_EVENT_BUS_HOST=selenium-hub
       - SE_EVENT_BUS_PUBLISH_PORT=4442
@@ -29,6 +35,7 @@ services:
   automation:
     build: .
     depends_on:
-      - chrome
+      selenium-hub:
+        condition: service_healthy
     volumes:
       - .:/app
