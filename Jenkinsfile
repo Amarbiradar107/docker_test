@@ -41,7 +41,7 @@ pipeline {
 
         stage('Run Tests') {
             steps {
-                sh 'docker compose run automation pytest -v --html=report.html'
+                sh 'docker compose run automation pytest -v --html=reports/report.html'
             }
         }
 
