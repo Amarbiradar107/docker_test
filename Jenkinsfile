@@ -18,7 +18,19 @@ pipeline {
 
         stage('Start Grid') {
             steps {
-                sh 'docker compose up -d'
+                sh '''
+                    docker compose up -d
+
+                    echo "Waiting for Selenium Hub..."
+
+                    until curl -s http://localhost:4444/status | grep -q "ready"
+                    do
+                        echo "Hub not ready..."
+                        sleep 5
+                    done
+
+                    echo "Hub is ready"
+                '''
             }
         }
 
