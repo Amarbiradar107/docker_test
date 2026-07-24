@@ -1,13 +1,7 @@
 pipeline {
     agent any
 
-    parameters {
-        choice(
-            name: 'TEST_SUITE',
-            choices: ['smoke', 'regression', 'sanity', 'api', 'all'],
-            description: 'Select Test Suite'
-        )
-    }
+
 
     stages {
 
@@ -45,7 +39,7 @@ pipeline {
 
         stage('Run Tests') {
             steps {
-                sh 'docker compose run automation pytest -m ${params.TEST_SUITE} --html=reports/report.html'
+                sh 'docker compose run automation pytest -v --html=reports/report.html'
             }
         }
 
